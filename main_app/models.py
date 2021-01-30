@@ -21,6 +21,9 @@ class Dog(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail", kwargs={"dog_id": self.id})
+    class Meta:
+        ordering = ['id']
+
 
 class Feeding(models.Model):
     date = models.DateField('Feeding Date')
@@ -37,6 +40,11 @@ class Feeding(models.Model):
 
 
     # Nice method for obtaining the friendly value of a Field.choice
-    
+
     def __str__(self):
          return f"{self.get_meal_display()} on {self.date}"
+
+    class Meta:
+        ordering = ['-date']
+
+
