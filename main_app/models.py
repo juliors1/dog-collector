@@ -1,6 +1,14 @@
 from django.db import models
 from django.urls import reverse
 
+
+MEALS = (
+    ('B', 'Breakfast'),
+    ('L', 'Lunch'),
+    ('D', 'Dinner')
+)
+
+
 # Create your models here.
 class Dog(models.Model):
     name = models.CharField(max_length=100)
@@ -16,5 +24,7 @@ class Dog(models.Model):
 
 class Feeding(models.Model):
     date = models.DateField()
-    meal = models.CharField(max_length=1)
-    
+    meal = models.CharField(max_length=1,
+    choices = MEALS,
+    default= MEALS[0][0]
+    )
