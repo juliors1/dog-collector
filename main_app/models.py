@@ -13,3 +13,8 @@ class Dog(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail", kwargs={"dog_id": self.id})
+
+class Feeding(models.Model):
+    date = models.DateField()
+    meal = models.CharField(max_length=1)
+    
