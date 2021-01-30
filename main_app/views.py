@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Dog
 from .forms import FeedingForm
@@ -25,6 +25,17 @@ def dogs_detail(request, dog_id):
     feeding_form = FeedingForm()
     return render(request, "dogs/details.html", {"dog": dog, 'feeding_form' : feeding_form})
 
+def add_feeding(request, dog_id):
+  # create a ModelForm instance using the data in request.POST
+  form = FeedingForm(request.POST)
+  # validate the form
+  if form.is_valid():
+    # don't save the form to the db until it
+    # has the dog_id assigned
+    new_feeding = form.save(commit=False)
+    new_feeding.dog_id =dog_id
+    new_feeding.save()
+  return redirect('detail', dog_id=dog_id)
 class DogCreate(CreateView):
     model = Dog
     fields = '__all__'
@@ -36,4 +47,5 @@ class DogUpdate(UpdateView):
 class DogDelete(DeleteView):
     model = Dog
     success_url = '/dogs/'
+
 
