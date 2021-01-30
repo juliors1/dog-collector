@@ -24,10 +24,15 @@ class Dog(models.Model):
 
 class Feeding(models.Model):
     date = models.DateField()
-    meal = models.CharField(max_length=1,
-    choices = MEALS,
-    default= MEALS[0][0],
+    meal = models.CharField(
+        max_length=1,
+        choices = MEALS,
+        default= MEALS[0][0],
     )
+    # Create a dog_id FK
+    dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
+
+
     # Nice method for obtaining the friendly value of a Field.choice
     def __str__(self):
          return f"{self.get_meal_display()} on {self.date}"
