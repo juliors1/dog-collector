@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>Dog Details</h1>
 
@@ -9,10 +8,14 @@
     <p>Breed: {{ dog.breed }}</p>
     <p>Description: {{ dog.description }}</p>
     {% if dog.age > 0 %}
-      <p>Age: {{ dog.age }}</p>
+    <p>Age: {{ dog.age }}</p>
     {% else %}
-      <p>Age: puppy</p>
+    <p>Age: Puppy</p>
     {% endif %}
+  </div>
+  <div class="card-action">
+    <a href="{% url 'cats_update' cat.id%}">Edit</a>
+    <a href="{% url 'cats_delete' cat.id%}">Delete</a>
   </div>
 </div>
 
