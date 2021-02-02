@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>Dog Details</h1>
 
@@ -7,13 +6,13 @@
   <div class="col s6">
     <div class="card">
       <div class="card-content">
-        <span class="card-title">{{ dog.name }}</span>
-        <p><b>Breed:</b> {{ dog.breed }}</p>
+        <span class="card-title"><b>{{ dog.name }}</b></span>
+        <p><b>Breed</b> {{ dog.breed }}</p>
         <p><b>Description:</b> {{ dog.description }}</p>
         {% if dog.age > 0 %}
         <p><b>Age:</b> {{ dog.age }}</p>
         {% else %}
-        <p>Age: Puppy</p>
+        <p><b>Age:</b> Puppy</p>
         {% endif %}
       </div>
       <div class="card-action">
@@ -23,9 +22,9 @@
     </div>
   </div>
   <div class="col s6">
-    <form action="{% url 'add_feeding' dog.id%}" method="POST">
-      {%csrf_token%} {{ feeding_form.as_p}}
-      <input type="submit" class="btn" value="Add Feeding" />
+    <form action="{% url 'add_feeding' dog.id %}" method="post">
+      {% csrf_token %} {{ feeding_form.as_p }}
+      <input type="submit" value="Add Feeding" class="btn" />
     </form>
     <br />
     {% if dog.fed_for_today %}
@@ -66,19 +65,18 @@
           A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
         </span>
       </div>
+      <div class="card-action">
+        <form action="{% url 'unassoc_toy' dog.id toy.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn">Remove</button>
+        </form>
+      </div>
     </div>
-    <div class="card-action">
-            <form action="{% url 'unassoc_toy' dog.id toy.id %}" method="post">
-                {% csrf_token %}
-              <button type="submit" class="btn">Remove</button>
-            </form>
-          </div>
-        </div>
-    {% endfor %}
-    {% else %}
-    <h5>No Toys :(</h5>
+    {% endfor %} {% else %}
+    <h5>{{dog.name}} has no toys and is sad 😥</h5>
     {% endif %}
   </div>
+  <!-- Available toys will come after this line -->
   <div class="col s6">
     <h3>Available Toys</h3>
     {% if toys.count %} {% for toy in toys.all %}
@@ -95,24 +93,20 @@
         </form>
       </div>
     </div>
-    {% endfor %}
-    {% else %}
-    <h5>{{dog.name}} Already Has All Toys Available</h5>
+    {% endfor %} {% else %}
+    <h5>{{dog.name}} Already Has All Toys Available.</h5>
     {% endif %}
   </div>
-  <script>
+</div>
+<script>
     var dateEl = document.getElementById("id_date");
     M.Datepicker.init(dateEl, {
-      format: "yyyy-mm-dd",
-      defaultDate: new Date(),
-      setDefaultDate: true,
-      autoClose: true,
+    format: "yyyy-mm-dd",
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true,
     });
-
-    // add additional JS to initialize select below
-
     var selectEl = document.getElementById("id_meal");
     M.FormSelect.init(selectEl);
-  </script>
-  {% endblock %}
-</div>
+</script>
+{% endblock %}
