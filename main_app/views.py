@@ -36,12 +36,12 @@ def home(request):
 def about(request):
     return render(request, "about.html")
 
-
+@login_required
 def dogs_index(request):
     dogs = Dog.objects.filter(user=request.user)
     return render(request, "dogs/index.html", {"dogs": dogs})
 
-
+@login_required
 def dogs_detail(request, dog_id):
     dog = Dog.objects.get(id=dog_id)
     # Get the toys the dog doesn't have
@@ -59,7 +59,7 @@ def dogs_detail(request, dog_id):
         },
     )
 
-
+@login_required
 def add_feeding(request, dog_id):
     # create a ModelForm instance using the data in request.POST
     form = FeedingForm(request.POST)
@@ -72,13 +72,13 @@ def add_feeding(request, dog_id):
         new_feeding.save()
     return redirect("detail", dog_id=dog_id)
 
-
+@login_required
 def assoc_toy(request, dog_id, toy_id):
     # Note that you can pass a toy's id instead of the whole object
     Dog.objects.get(id=dog_id).toys.add(toy_id)
     return redirect("detail", dog_id=dog_id)
 
-
+@login_required
 def signup(request):
   error_message = ''
   if request.method == 'POST':
