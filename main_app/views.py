@@ -4,11 +4,12 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Dog, Toy
 from .forms import FeedingForm
 
 # Create your views here
-class DogCreate(CreateView):
+class DogCreate(LoginRequiredMixin,CreateView):
     model = Dog
     fields =  ['name', 'breed', 'description', 'age']
     # This inherited method is called when a
@@ -19,12 +20,12 @@ class DogCreate(CreateView):
     # Let the CreateView do its job as usual
         return super().form_valid(form)
 
-class DogUpdate(UpdateView):
+class DogUpdate(LoginRequiredMixin,UpdateView):
     model = Dog
     fields = ["breed", "description", "age"]
 
 
-class DogDelete(DeleteView):
+class DogDelete(LoginRequiredMixin,DeleteView):
     model = Dog
     success_url = "/dogs/"
 
@@ -98,20 +99,20 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-class ToyList(ListView):
+class ToyList(LoginRequiredMixin,ListView):
     model = Toy
 
 
-class ToyDetail(DetailView):
+class ToyDetail(LoginRequiredMixin,DetailView):
     model = Toy
 
 
-class ToyCreate(CreateView):
+class ToyCreate(LoginRequiredMixin,CreateView):
     model = Toy
     fields = "__all__"
 
 
-class ToyUpdate(UpdateView):
+class ToyUpdate(LoginRequiredMixin,UpdateView):
     model = Toy
     fields = ["name", "color"]
 
