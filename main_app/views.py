@@ -64,6 +64,12 @@ def add_feeding(request, dog_id):
     return redirect("detail", dog_id=dog_id)
 
 
+def assoc_toy(request, dog_id, toy_id):
+    # Note that you can pass a toy's id instead of the whole object
+    Dog.objects.get(id=dog_id).toys.add(toy_id)
+    return redirect("detail", dog_id=dog_id)
+
+
 class ToyList(ListView):
     model = Toy
 
