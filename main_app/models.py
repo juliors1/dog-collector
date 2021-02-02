@@ -1,13 +1,26 @@
-from typing import DefaultDict
 from django.db import models
 from django.urls import reverse
 from datetime import date
 
 
-MEALS = (("B", "Breakfast"), ("L", "Lunch"), ("D", "Dinner"))
-
+MEALS = (("B", "Breakfast"),
+        ("L", "Lunch"),
+        ("D", "Dinner"))
 
 # Create your models here.
+
+
+class Toy(models.Model):
+    name = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("toys_detail", kwargs={"pk": self.id})
+
+
 class Dog(models.Model):
     name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100)
@@ -29,7 +42,6 @@ class Dog(models.Model):
 
 class Feeding(models.Model):
     date = models.DateField("Feeding Date")
-
     meal = models.CharField(
         max_length=1,
         choices=MEALS,
@@ -46,14 +58,3 @@ class Feeding(models.Model):
 
     class Meta:
         ordering = ["-date"]
-
-
-class Toy(models.Model):
-    name = models.CharField(max_length=50)
-    color = models.CharField(max_length=25)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse("toys_detail", kwargs={"pk": self.id})
