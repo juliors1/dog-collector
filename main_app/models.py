@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 
 MEALS = (("B", "Breakfast"), ("L", "Lunch"), ("D", "Dinner"))
 
-# Create your models here.
 
 
 class Toy(models.Model):
