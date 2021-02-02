@@ -35,10 +35,19 @@ def dogs_index(request):
 
 def dogs_detail(request, dog_id):
     dog = Dog.objects.get(id=dog_id)
+    # Get the toys the dog doesn't have
+    toys_dog_doesnt_have = Toy.objects.exclude(id__in=dog.toys.all().values_list("id"))
     # instantiate FeedingForm to be rendered in the template
     feeding_form = FeedingForm()
     return render(
-        request, "dogs/detail.html", {"dog": dog, "feeding_form": feeding_form}
+        request,
+        "dogs/detail.html",
+        {
+            "dog": dog,
+            "feeding_form": feeding_form,
+            # Add the toys to be displayed
+            "toys": toys_dog_doesnt_have,
+        },
     )
 
 
@@ -54,21 +63,25 @@ def add_feeding(request, dog_id):
         new_feeding.save()
     return redirect("detail", dog_id=dog_id)
 
+
 class ToyList(ListView):
-  model = Toy
+    model = Toy
+
 
 class ToyDetail(DetailView):
-  model = Toy
+    model = Toy
+
 
 class ToyCreate(CreateView):
-  model = Toy
-  fields = '__all__'
+    model = Toy
+    fields = "__all__"
+
 
 class ToyUpdate(UpdateView):
-  model = Toy
-  fields = ['name', 'color']
+    model = Toy
+    fields = ["name", "color"]
+
 
 class ToyDelete(DeleteView):
-  model = Toy
-  success_url = '/toys/'
-
+    model = Toy
+    success_url = "/toys/"
