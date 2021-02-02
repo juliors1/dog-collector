@@ -15,9 +15,9 @@ class DogCreate(LoginRequiredMixin,CreateView):
     # This inherited method is called when a
     # valid cat form is being submitted
     def form_valid(self, form):
-    # Assign the logged in user (self.request.user)
+        # Assign the logged in user (self.request.user)
         form.instance.user = self.request.user  # form.instance is the cat
-    # Let the CreateView do its job as usual
+        # Let the CreateView do its job as usual
         return super().form_valid(form)
 
 class DogUpdate(LoginRequiredMixin,UpdateView):
@@ -80,6 +80,10 @@ def assoc_toy(request, dog_id, toy_id):
     return redirect("detail", dog_id=dog_id)
 
 @login_required
+def unassoc_toy(request, dog_id, toy_id):
+    Dog.objects.get(id=dog_id).toys.remove(toy_id)
+    return redirect("detail", dog_id=dog_id)
+
 def signup(request):
   error_message = ''
   if request.method == 'POST':
