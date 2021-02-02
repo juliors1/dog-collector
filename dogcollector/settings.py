@@ -122,3 +122,5 @@ STATIC_URL = "/static/"
 
 # Add this variable to specify where successful logins should redirect to
 LOGIN_REDIRECT_URL = '/dogs/'
+
+LOGOUT_REDIRECT_URL = '/'
